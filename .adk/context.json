@@ -1,0 +1,33 @@
+{
+  "project": {
+    "name": "InstaBids",
+    "domain": "Home Improvement",
+    "purpose": "Connect homeowners with contractors through AI-assisted project scoping and bidding",
+    "stage": "MVP",
+    "security_critical": true
+  },
+  "architecture": {
+    "style": "Multi-Agent System",
+    "frontend": "Next.js 14 + shadcn/ui",
+    "backend": "FastAPI with Google ADK",
+    "data_persistence": "Supabase PostgreSQL",
+    "authentication": "Supabase Auth"
+  },
+  "key_components": {
+    "homeowner_agent": "Conversational slot-filling, preference recall, bid card generation",
+    "bid_card_module": "Classify project, enrich with photo_meta, create Bid Card JSON",
+    "outbound_recruiter_agent": "Select & invite contractors, fire MatchMade",
+    "messaging_broker": "Store & stream chat, mask PII until match"
+  },
+  "dependencies": {
+    "external_apis": [
+      {"name": "Google Gemini", "purpose": "LLM & vision model", "integration_style": "ADK"},
+      {"name": "Supabase", "purpose": "Database & real-time updates", "integration_style": "SDK"}
+    ]
+  },
+  "conventions": {
+    "code_style": "Refer to .adk/conventions.json",
+    "naming_patterns": "Refer to .adk/conventions.json",
+    "module_organization": "Feature-based modules with shared utilities"
+  }
+}
