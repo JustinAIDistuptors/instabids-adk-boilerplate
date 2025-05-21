@@ -1,0 +1,49 @@
+{
+  "name": "InstaBids Homeowner Agent",
+  "description": "Interactive agent that assists homeowners in scoping home improvement projects and creating structured bid cards through conversation.",
+  "url": "https://api.instabids.com/a2a/v1",
+  "provider": {
+    "organization": "InstaBids",
+    "url": "https://www.instabids.com"
+  },
+  "version": "1.0.0",
+  "documentationUrl": "https://docs.instabids.com/homeowner-agent",
+  "capabilities": {
+    "streaming": true,
+    "pushNotifications": true,
+    "stateTransitionHistory": true
+  },
+  "authentication": {
+    "schemes": ["Bearer"]
+  },
+  "defaultInputModes": ["text/plain", "image/jpeg", "image/png", "audio/wav"],
+  "defaultOutputModes": ["text/plain", "application/json"],
+  "skills": [
+    {
+      "id": "project-scoping",
+      "name": "Project Scoping",
+      "description": "Assist homeowners in describing their home improvement project requirements through conversation and image analysis.",
+      "tags": ["project-requirements", "conversation", "image-analysis", "home-improvement"],
+      "examples": [
+        "I need a bathroom remodel",
+        "Can you help me scope my kitchen renovation?",
+        "[UPLOAD IMAGE] What can you tell me about this space?",
+        "I want to build a deck in my backyard"
+      ],
+      "inputModes": ["text/plain", "image/jpeg", "image/png"],
+      "outputModes": ["text/plain"]
+    },
+    {
+      "id": "bid-card-generation",
+      "name": "Bid Card Generation",
+      "description": "Creates structured bid cards with project details that can be shared with contractors.",
+      "tags": ["bid-card", "project-details", "contractor-matching"],
+      "examples": [
+        "Create a bid card for my bathroom project",
+        "Finalize my project details and find contractors"
+      ],
+      "inputModes": ["text/plain"],
+      "outputModes": ["application/json", "text/plain"]
+    }
+  ]
+}
