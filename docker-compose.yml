@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./src:/app/src
+      - ./tests:/app/tests
+    environment:
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
+      - ALLOWED_ORIGINS=http://localhost:3000
+    depends_on:
+      - supabase
+    command: uvicorn src.instabids.api.main:app --host 0.0.0.0 --port 8000 --reload
+
+  # Supabase local development setup
+  supabase:
+    image: supabase/postgres:15.1.0.73
+    ports:
+      - "54322:5432"
+    volumes:
+      - supabase-data:/var/lib/postgresql/data
+      - ./db/migrations:/docker-entrypoint-initdb.d  # Mount migrations
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
+
+  supabase-studio:
+    image: supabase/studio:latest
+    ports:
+      - "54323:3000"
+    depends_on:
+      - supabase
+    environment:
+      - SUPABASE_URL=http://kong:8000
+      - STUDIO_PG_META_URL=http://meta:8080
+      - SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
+      - SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
+
+volumes:
+  supabase-data:
