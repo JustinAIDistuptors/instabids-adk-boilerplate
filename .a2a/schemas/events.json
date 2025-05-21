@@ -1,0 +1,211 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "InstaBids A2A Events Schema",
+  "description": "Schema definitions for events exchanged between agents in the InstaBids system",
+  "definitions": {
+    "BaseEvent": {
+      "type": "object",
+      "required": ["event_type", "timestamp", "session_id"],
+      "properties": {
+        "event_type": {
+          "type": "string",
+          "enum": [
+            "bid_card_created",
+            "bid_card_updated",
+            "contractor_invited",
+            "contractor_responded",
+            "match_made",
+            "message_sent"
+          ]
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO format timestamp"
+        },
+        "session_id": {
+          "type": "string"
+        },
+        "metadata": {
+          "type": "object"
+        }
+      }
+    },
+    "BidCardCreatedEvent": {
+      "allOf": [
+        { "$ref": "#/definitions/BaseEvent" },
+        {
+          "type": "object",
+          "required": ["bid_card_id", "homeowner_id", "project_type", "bid_card_data"],
+          "properties": {
+            "event_type": {
+              "const": "bid_card_created"
+            },
+            "bid_card_id": {
+              "type": "string"
+            },
+            "homeowner_id": {
+              "type": "string"
+            },
+            "project_type": {
+              "type": "string"
+            },
+            "bid_card_data": {
+              "type": "object"
+            }
+          }
+        }
+      ]
+    },
+    "BidCardUpdatedEvent": {
+      "allOf": [
+        { "$ref": "#/definitions/BaseEvent" },
+        {
+          "type": "object",
+          "required": ["bid_card_id", "updated_fields", "bid_card_data"],
+          "properties": {
+            "event_type": {
+              "const": "bid_card_updated"
+            },
+            "bid_card_id": {
+              "type": "string"
+            },
+            "updated_fields": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "bid_card_data": {
+              "type": "object"
+            }
+          }
+        }
+      ]
+    },
+    "ContractorInvitedEvent": {
+      "allOf": [
+        { "$ref": "#/definitions/BaseEvent" },
+        {
+          "type": "object",
+          "required": ["bid_card_id", "contractor_id", "invitation_method"],
+          "properties": {
+            "event_type": {
+              "const": "contractor_invited"
+            },
+            "bid_card_id": {
+              "type": "string"
+            },
+            "contractor_id": {
+              "type": "string"
+            },
+            "invitation_method": {
+              "type": "string",
+              "enum": ["email", "sms", "push", "in_app"]
+            }
+          }
+        }
+      ]
+    },
+    "ContractorRespondedEvent": {
+      "allOf": [
+        { "$ref": "#/definitions/BaseEvent" },
+        {
+          "type": "object",
+          "required": ["bid_card_id", "contractor_id", "response"],
+          "properties": {
+            "event_type": {
+              "const": "contractor_responded"
+            },
+            "bid_card_id": {
+              "type": "string"
+            },
+            "contractor_id": {
+              "type": "string"
+            },
+            "response": {
+              "type": "string",
+              "enum": ["interested", "not_interested", "needs_more_info"]
+            },
+            "message": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "MatchMadeEvent": {
+      "allOf": [
+        { "$ref": "#/definitions/BaseEvent" },
+        {
+          "type": "object",
+          "required": ["bid_card_id", "homeowner_id", "contractor_id", "match_timestamp"],
+          "properties": {
+            "event_type": {
+              "const": "match_made"
+            },
+            "bid_card_id": {
+              "type": "string"
+            },
+            "homeowner_id": {
+              "type": "string"
+            },
+            "contractor_id": {
+              "type": "string"
+            },
+            "match_timestamp": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        }
+      ]
+    },
+    "MessageSentEvent": {
+      "allOf": [
+        { "$ref": "#/definitions/BaseEvent" },
+        {
+          "type": "object",
+          "required": ["conversation_id", "sender_id", "sender_type", "message_id", "content"],
+          "properties": {
+            "event_type": {
+              "const": "message_sent"
+            },
+            "conversation_id": {
+              "type": "string"
+            },
+            "sender_id": {
+              "type": "string"
+            },
+            "sender_type": {
+              "type": "string",
+              "enum": ["homeowner", "contractor", "system"]
+            },
+            "message_id": {
+              "type": "string"
+            },
+            "content": {
+              "type": "string"
+            },
+            "attachments": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["type", "url"],
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": ["image", "document", "video", "audio"]
+                  },
+                  "url": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}
