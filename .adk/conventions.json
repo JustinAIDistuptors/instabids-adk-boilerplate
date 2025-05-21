@@ -1,0 +1,83 @@
+{
+  "code_style": {
+    "python": {
+      "line_length": 100,
+      "docstrings": "All functions and classes must have comprehensive docstrings",
+      "typing": "Use type hints for all function parameters and return values",
+      "formatter": "black",
+      "linter": "flake8"
+    }
+  },
+  "naming_conventions": {
+    "files": "snake_case",
+    "classes": "PascalCase",
+    "functions": "snake_case",
+    "variables": "snake_case",
+    "constants": "UPPER_SNAKE_CASE",
+    "modules": "snake_case",
+    "packages": "snake_case",
+    "agents": "must end with 'Agent', e.g., 'HomeownerAgent'"
+  },
+  "documentation": {
+    "code_level": {
+      "docstrings": "Google style docstrings with Args, Returns, Raises sections",
+      "inline_comments": "Only for complex logic"
+    },
+    "module_level": {
+      "require_module_docstring": true,
+      "content": "Purpose, usage, and relationships to other modules"
+    },
+    "tooling": {
+      "tool_docstrings": {
+        "required_sections": [
+          "Description of what the tool does",
+          "When to use the tool",
+          "Input parameters with types",
+          "Expected output format",
+          "Potential error cases"
+        ],
+        "format": "Must be comprehensive as LLMs rely heavily on docstrings for tool selection"
+      }
+    }
+  },
+  "agent_conventions": {
+    "state_management": {
+      "session_state": "No prefix, e.g., 'session.state['key']'",
+      "user_state": "Use 'user:' prefix, e.g., 'session.state['user:preferences']'",
+      "app_state": "Use 'app:' prefix, e.g., 'session.state['app:config']'",
+      "temp_state": "Use 'temp:' prefix for transient data, e.g., 'session.state['temp:draft']'"
+    },
+    "tools": {
+      "naming": "Use verb_noun format, e.g., 'get_weather', 'save_bid_card'",
+      "parameters": "Prefer keyword arguments over positional",
+      "return_values": "Always return a dictionary with at least 'status' key ('success' or 'error')"
+    },
+    "descriptions": {
+      "agent_description": "Brief, focused on capabilities for delegation decisions",
+      "tool_description": "Must clearly state purpose, appropriate usage contexts, and behavior"
+    }
+  },
+  "testing": {
+    "unit_tests": {
+      "naming": "test_<function_name>.py or test_<class_name>.py",
+      "coverage": "Minimum 80% test coverage required",
+      "fixtures": "Use pytest fixtures for reusable test components"
+    },
+    "integration_tests": {
+      "focus": "Test multi-agent workflows and A2A communication",
+      "naming": "test_<feature>_workflow.py"
+    },
+    "evaluation": {
+      "formats": {
+        "single_turn": "evaluation.test.json",
+        "multi_turn": "<agent_name>.evalset.json"
+      },
+      "metrics": [
+        "Correctness",
+        "Helpfulness",
+        "Safety",
+        "Tool usage appropriateness"
+      ]
+    }
+  }
+}
