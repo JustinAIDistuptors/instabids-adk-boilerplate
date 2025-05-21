@@ -1,0 +1,49 @@
+{
+  "name": "InstaBids Outbound Recruiter Agent",
+  "description": "Agent that identifies and invites relevant contractors for bid cards based on project requirements and location.",
+  "url": "https://api.instabids.com/a2a/v1/recruiter",
+  "provider": {
+    "organization": "InstaBids",
+    "url": "https://www.instabids.com"
+  },
+  "version": "1.0.0",
+  "documentationUrl": "https://docs.instabids.com/recruiter-agent",
+  "capabilities": {
+    "streaming": true,
+    "pushNotifications": true,
+    "stateTransitionHistory": true
+  },
+  "authentication": {
+    "schemes": ["Bearer"]
+  },
+  "defaultInputModes": ["text/plain", "application/json"],
+  "defaultOutputModes": ["text/plain", "application/json"],
+  "skills": [
+    {
+      "id": "contractor-matching",
+      "name": "Contractor Matching",
+      "description": "Identifies contractors that match the project requirements based on expertise, location, and availability.",
+      "tags": ["contractor-matching", "project-requirements", "location-based-search"],
+      "examples": [
+        "Find contractors for bid card #1234",
+        "Identify plumbers in the Chicago area",
+        "Match contractors with kitchen renovation experience"
+      ],
+      "inputModes": ["application/json"],
+      "outputModes": ["application/json"]
+    },
+    {
+      "id": "invitation-management",
+      "name": "Invitation Management",
+      "description": "Sends and tracks invitations to contractors for specific bid cards.",
+      "tags": ["invitation", "email", "sms", "tracking"],
+      "examples": [
+        "Invite the top 5 contractors for bid card #1234",
+        "Send follow-up to non-responsive contractors",
+        "Track status of all invitations for project #5678"
+      ],
+      "inputModes": ["text/plain", "application/json"],
+      "outputModes": ["application/json", "text/plain"]
+    }
+  ]
+}
