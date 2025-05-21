@@ -1,0 +1,129 @@
+{
+  "agents": [
+    {
+      "name": "HomeownerAgent",
+      "path": "src.instabids.agents.homeowner.agent",
+      "type": "LlmAgent",
+      "description": "Interactive agent that assists homeowners in scoping home improvement projects and creating structured bid cards through conversation.",
+      "capabilities": [
+        "Project scoping through conversation",
+        "Image analysis for project details",
+        "Bid card generation and management",
+        "User preference management"
+      ],
+      "dependencies": [
+        "BidCardModule",
+        "database_tools",
+        "vision_tools"
+      ]
+    },
+    {
+      "name": "OutboundRecruiterAgent",
+      "path": "src.instabids.agents.outbound_recruiter.agent",
+      "type": "LlmAgent",
+      "description": "Agent that identifies and invites relevant contractors for bid cards based on project requirements and location.",
+      "capabilities": [
+        "Contractor matching based on project requirements",
+        "Invitation management",
+        "Response tracking",
+        "Match facilitation"
+      ],
+      "dependencies": [
+        "database_tools",
+        "contractor_tools"
+      ]
+    }
+  ],
+  "modules": [
+    {
+      "name": "BidCardModule",
+      "path": "src.instabids.modules.bid_card_module",
+      "description": "Business logic for creating, validating, and managing bid cards",
+      "dependencies": [
+        "database_tools"
+      ]
+    }
+  ],
+  "tools": [
+    {
+      "name": "database_tools",
+      "path": "src.instabids.tools.database_tools",
+      "description": "Tools for interacting with Supabase/PostgreSQL database",
+      "functions": [
+        "save_bid_card",
+        "get_bid_card",
+        "update_bid_card",
+        "find_contractors",
+        "save_invitation"
+      ]
+    },
+    {
+      "name": "vision_tools",
+      "path": "src.instabids.tools.vision_tools",
+      "description": "Tools for processing and analyzing images",
+      "functions": [
+        "analyze_image"
+      ]
+    },
+    {
+      "name": "bid_card_tools",
+      "path": "src.instabids.agents.homeowner.tools.bid_card_tools",
+      "description": "Agent-specific tools for bid card operations",
+      "functions": [
+        "generate_bid_card"
+      ]
+    },
+    {
+      "name": "contractor_tools",
+      "path": "src.instabids.agents.outbound_recruiter.tools.contractor_tools",
+      "description": "Agent-specific tools for contractor operations",
+      "functions": [
+        "invite_contractor",
+        "track_response"
+      ]
+    }
+  ],
+  "services": [
+    {
+      "name": "MemoryService",
+      "path": "src.instabids.sessions.memory_service",
+      "description": "Custom memory implementation for agent state management",
+      "interfaces": [
+        "InMemorySessionService",
+        "SupabaseMemoryService"
+      ]
+    },
+    {
+      "name": "SessionService",
+      "path": "src.instabids.sessions.session_service",
+      "description": "Service for managing ADK sessions",
+      "interfaces": [
+        "create_session",
+        "get_session",
+        "list_sessions",
+        "delete_session"
+      ]
+    }
+  ],
+  "a2a": [
+    {
+      "name": "A2AClient",
+      "path": "src.instabids.a2a_comm.client",
+      "description": "Client for interacting with A2A-enabled agents",
+      "interfaces": [
+        "send_task",
+        "send_task_subscribe"
+      ]
+    },
+    {
+      "name": "A2AServer",
+      "path": "src.instabids.a2a_comm.server",
+      "description": "Server implementation for exposing ADK agents as A2A-compatible services",
+      "interfaces": [
+        "handle_json_rpc",
+        "handle_task_send",
+        "handle_task_send_subscribe"
+      ]
+    }
+  ]
+}
